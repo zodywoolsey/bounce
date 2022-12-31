@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c1muwkh1u31u1"]
+
+[node name="powerUps" type="Node3D"]
+
+[node name="range" type="MeshInstance3D" parent="."]

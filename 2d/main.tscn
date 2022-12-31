@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://2d/CharacterBody2D.gd" id="1_2o7ex"]
+[ext_resource type="Script" path="res://2d/spawner.gd" id="1_j8xgw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bwv3s"]
+size = Vector2(450, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ru7ce"]
+size = Vector2(50, 5000)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(250, 0)
+script = ExtResource("1_j8xgw")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+continuous_cd = 2
+can_sleep = false
+script = ExtResource("1_2o7ex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(250, 755)
+shape = SubResource("RectangleShape2D_bwv3s")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(250, 755)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-25, -1347)
+shape = SubResource("RectangleShape2D_ru7ce")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(525, -1347)
+shape = SubResource("RectangleShape2D_ru7ce")

@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://o2xf3wf4w6mc"]
+
+[ext_resource type="Script" path="res://spawner/goals.gd" id="1_v7kb1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aj5i6"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 0.992157, 0.992157, 0.172549)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6hfks"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_47h4u"]
+radius = 3.08249
+
+[sub_resource type="SphereMesh" id="SphereMesh_icn7l"]
+radius = 3.08249
+height = 6.16498
+
+[node name="goals" type="Node3D"]
+script = ExtResource("1_v7kb1")
+
+[node name="range" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_aj5i6")
+mesh = SubResource("BoxMesh_6hfks")
+
+[node name="goal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.190387, -0.495575, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="goal"]
+shape = SubResource("SphereShape3D_47h4u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="goal"]
+mesh = SubResource("SphereMesh_icn7l")
