@@ -7,9 +7,9 @@ func _ready():
 	pass
 
 func _physics_process(delta):
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("right"):
 		rotateVelocity += rotateSpeed*delta
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("left"):
 		rotateVelocity -= rotateSpeed*delta
 	rotate(Vector3.FORWARD,rotateVelocity)
 #	if !Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_left"):

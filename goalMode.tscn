@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cdvwtj5qjgqch"]
+[gd_scene load_steps=10 format=3 uid="uid://cdvwtj5qjgqch"]
 
 [ext_resource type="Script" path="res://spawner/spawner3d.gd" id="1_ogaif"]
 [ext_resource type="PackedScene" path="res://assets/parallax mountain/scene/mountainBackground.tscn" id="2_k0gxb"]
 [ext_resource type="PackedScene" uid="uid://o2xf3wf4w6mc" path="res://spawner/goals.tscn" id="3_1wv1c"]
+[ext_resource type="PackedScene" uid="uid://c2x8b3na6h63e" path="res://players/paddles.tscn" id="4_3ct6n"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_w4i4b"]
 
@@ -74,5 +75,9 @@ maxSize = 1
 minSize = 1.0
 rangex = 15.0
 rangey = 20.0
+
+[node name="paddles" parent="." instance=ExtResource("4_3ct6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.39578, 0)
+length = 8.875
 
 [connection signal="body_entered" from="deleteBoundary" to="deleteBoundary" method="_on_body_entered"]
