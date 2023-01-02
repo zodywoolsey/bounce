@@ -32,7 +32,7 @@ func _ready():
 	lp_mesh.mesh.height = length
 	lp_mesh.mesh.radius = width
 
-func _process(delta):
+func _physics_process(delta):
 	if Engine.is_editor_hint():
 		right_paddle.position.x = separation
 		rp_col.position.x = -((length/2)-(width))
@@ -48,13 +48,7 @@ func _process(delta):
 		lp_col.shape.radius = width
 		lp_mesh.mesh.height = length
 		lp_mesh.mesh.radius = width
-	if Input.is_action_pressed("right") and right_paddle.rotation.z > 0:
-			right_paddle.rotation.z = lerp_angle(right_paddle.rotation.z,0,power*Input.get_action_strength("right"))
-	else:
-		if right_paddle.rotation.z < 45:
-			right_paddle.rotation.z = lerp_angle(right_paddle.rotation.z,45,power)
-	if Input.is_action_pressed("left") and left_paddle.rotation.z < 0:
-			left_paddle.rotation.z = lerp_angle(left_paddle.rotation.z,0,power)
-	else:
-		if left_paddle.rotation.z > -45:
-			left_paddle.rotation.z = lerp_angle(left_paddle.rotation.z,-45,power)
+	if right_paddle.rotation.z > 0:
+			right_paddle.rotation.z = lerp_angle(right_paddle.rotation.z,lerp_angle(45,0,Input.get_action_strength('right')),power)
+	if left_paddle.rotation.z < 0:
+			left_paddle.rotation.z = lerp_angle(left_paddle.rotation.z,lerp_angle(-45,0,Input.get_action_strength('left')),power)

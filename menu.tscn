@@ -1,7 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://doofgumcpow5w"]
+[gd_scene load_steps=16 format=3 uid="uid://doofgumcpow5w"]
 
-[ext_resource type="Theme" uid="uid://0ko6t7f3hguj" path="res://assets/theme/pupperTheme.tres" id="1_aqsto"]
+[ext_resource type="Script" path="res://menu.gd" id="1_eu8h6"]
 [ext_resource type="Shader" path="res://menu.gdshader" id="2_ljryx"]
+[ext_resource type="Texture2D" uid="uid://di0nb6ajr0urp" path="res://assets/controller/Xbox Series Button Icons and Controls/Buttons Outline/White/SVG/Left Trigger.svg" id="5_1me4v"]
+[ext_resource type="Texture2D" uid="uid://bnhnf1qm71q51" path="res://assets/controller/w.svg" id="5_8u5lu"]
+[ext_resource type="Texture2D" uid="uid://dk2is56t1wdke" path="res://assets/controller/arrow.svg" id="6_avfv3"]
+[ext_resource type="Texture2D" uid="uid://bkakt8j4lasbf" path="res://assets/controller/touch.svg" id="6_ppw4n"]
+[ext_resource type="Texture2D" uid="uid://dmcff7cs2av3g" path="res://assets/controller/D.svg" id="8_kiwqk"]
+[ext_resource type="Texture2D" uid="uid://gksiudc313m6" path="res://assets/controller/Xbox Series Button Icons and Controls/Buttons Outline/White/SVG/Right Trigger.svg" id="9_ppo1h"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_otq1p"]
 noise_type = 3
@@ -14,6 +20,7 @@ noise = SubResource("FastNoiseLite_otq1p")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tlu1l"]
 shader = ExtResource("2_ljryx")
+shader_parameter/alpha = null
 shader_parameter/noise = SubResource("NoiseTexture2D_iadm2")
 
 [sub_resource type="GDScript" id="GDScript_xxql0"]
@@ -22,52 +29,78 @@ script/source = "extends ColorRect
 var noise = FastNoiseLite.new()
 var noiseTex = NoiseTexture2D.new()
 var off = Vector3()
+var alpha = 1.0
+var currentAlpha = 1.0
+var textureRes = 4.0
 
 func _ready():
-	noise.noise_type = FastNoiseLite.TYPE_PERLIN
+	noise.noise_type = FastNoiseLite.TYPE_VALUE_CUBIC
 	noiseTex.in_3d_space = true
 	noise.seed = randi()
 	print(noise.seed)
 	noiseTex.noise = noise
-	noiseTex.width = get_viewport_rect().size.x/2.0
-	noiseTex.height = get_viewport_rect().size.y/2.0
+	noiseTex.width = get_viewport_rect().size.x/textureRes
+	noiseTex.height = get_viewport_rect().size.y/textureRes
 	noise.fractal_type = FastNoiseLite.FRACTAL_NONE
 	material.set_shader_parameter('noise',noiseTex)
 
 func _process(delta):
-	noiseTex.width = get_viewport_rect().size.x/2.0
-	noiseTex.height = get_viewport_rect().size.y/2.0
+	noiseTex.width = get_viewport_rect().size.x/textureRes
+	noiseTex.height = get_viewport_rect().size.y/textureRes
 	off += Vector3(0.1,0.1,0.05)
 	noise.offset = off
+	currentAlpha = lerp(currentAlpha,alpha,1.0*delta)
+	material.set_shader_parameter('alpha', currentAlpha)
 "
 
-[sub_resource type="GDScript" id="GDScript_q0wpq"]
+[sub_resource type="GDScript" id="GDScript_icjw4"]
 script/source = "extends Button
-var hoverSound = preload(\"res://assets/audio/hover.ogg\")
+@onready var settings :Panel = $\"../../../settings\"
+
 func _ready():
-	hoverSound.loop = false
-	mouse_entered.connect(func():
-		var sound = hoverSound.instantiate_playback()
-		var player = AudioStreamPlayer.new()
-		player.stream = hoverSound
-		add_child(player)
-		player.play()
-		player.volume_db = -20.0
-		player.finished.connect(func():player.queue_free())
+	settings.hide()
+	settings.scale = Vector2()
+	pressed.connect( func():
+		if settings.scale.length() < .5:
+			var tween = create_tween()
+			settings.show()
+			tween.tween_property(settings,'scale',Vector2(1,1),.25).set_trans(Tween.TRANS_CUBIC)
 		)
 "
 
-[node name="Control" type="Control"]
+[sub_resource type="GDScript" id="GDScript_wou5r"]
+script/source = "extends Button
+@onready var settings = $\"../..\"
+
+func _ready():
+	pressed.connect( func():
+		if settings.scale.length() > .5:
+			var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
+			tween.tween_property(settings,'scale',Vector2(),.25)
+			tween.tween_callback(settings.hide)
+		)
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwxmt"]
+bg_color = Color(0, 0, 0, 0.427451)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="Control" type="Control" groups=["menu"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_aqsto")
+pivot_offset = Vector2(250, 500)
+script = ExtResource("1_eu8h6")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_tlu1l")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -75,8 +108,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_xxql0")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="main" type="Panel" parent="."]
 custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -89,7 +123,8 @@ offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="main"]
+layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -98,36 +133,219 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="Panel/VBoxContainer"]
+[node name="paddlesbtn" type="Button" parent="main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
-offset_top = 38.0
-offset_right = 100.0
-offset_bottom = 88.0
-text = "Test"
-script = SubResource("GDScript_q0wpq")
+layout_mode = 2
+text = "Paddles"
 
-[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
-offset_top = 92.0
-offset_right = 100.0
-offset_bottom = 96.0
+[node name="HSeparator" type="HSeparator" parent="main/VBoxContainer"]
+layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 
-[node name="Button2" type="Button" parent="Panel/VBoxContainer"]
+[node name="spinnerbtn" type="Button" parent="main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
-offset_top = 100.0
-offset_right = 100.0
-offset_bottom = 150.0
-text = "Test"
+layout_mode = 2
+text = "Spinner"
 
-[node name="HSeparator2" type="HSeparator" parent="Panel/VBoxContainer"]
-offset_top = 154.0
-offset_right = 100.0
-offset_bottom = 158.0
+[node name="HSeparator2" type="HSeparator" parent="main/VBoxContainer"]
+visible = false
+layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 
-[node name="Button3" type="Button" parent="Panel/VBoxContainer"]
+[node name="settingsbtn" type="Button" parent="main/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(100, 50)
-offset_top = 162.0
-offset_right = 100.0
-offset_bottom = 212.0
-text = "Test"
+layout_mode = 2
+text = "Settings"
+script = SubResource("GDScript_icjw4")
+
+[node name="settings" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="settings"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Volume"
+
+[node name="VSeparator" type="VSeparator" parent="settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"transparentHSeparator"
+theme_override_constants/separation = 60
+
+[node name="HSlider" type="HSlider" parent="settings/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="close" type="Button" parent="settings/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Close"
+script = SubResource("GDScript_wou5r")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 101.0
+offset_right = 20.0
+offset_bottom = 141.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.0
+offset_top = -56.5
+offset_right = 139.0
+offset_bottom = 56.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "bounce"
+
+[node name="Panel2" type="Panel" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
+
+[node name="Label" type="Label" parent="Panel2"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Controls:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "left:   "
+
+[node name="VSeparator" type="VSeparator" parent="Panel2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"transparentHSeparator"
+
+[node name="LeftTrigger" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_1me4v")
+ignore_texture_size = true
+
+[node name="Touch" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+texture = ExtResource("6_ppw4n")
+ignore_texture_size = true
+flip_h = true
+
+[node name="W" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_8u5lu")
+ignore_texture_size = true
+
+[node name="Arrow" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("6_avfv3")
+ignore_texture_size = true
+flip_h = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "right:"
+
+[node name="VSeparator" type="VSeparator" parent="Panel2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_type_variation = &"transparentHSeparator"
+
+[node name="RightTrigger" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("9_ppo1h")
+ignore_texture_size = true
+
+[node name="Touch" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+texture = ExtResource("6_ppw4n")
+ignore_texture_size = true
+
+[node name="D" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("8_kiwqk")
+ignore_texture_size = true
+
+[node name="Arrow" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("6_avfv3")
+ignore_texture_size = true

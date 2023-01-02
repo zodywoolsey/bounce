@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bh8lsj6fmpdg7"]
+
+[node name="score" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer" groups=["scoreLabel"]]
+offset_left = 227.0
+offset_right = 272.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 26
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1

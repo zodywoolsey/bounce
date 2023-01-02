@@ -1,11 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2x8b3na6h63e"]
+[gd_scene load_steps=5 format=3 uid="uid://c2x8b3na6h63e"]
 
 [ext_resource type="Script" path="res://players/paddles.gd" id="1_31e1t"]
+[ext_resource type="Material" uid="uid://hcgktddn4q6a" path="res://players/playerMat.tres" id="2_6nthq"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1bv51"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tkf5n"]
 height = 8.0
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_hev2t"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_62wp7"]
 height = 8.0
 
 [node name="paddles" type="Node3D"]
@@ -16,19 +17,21 @@ transform = Transform3D(0.525322, -0.850904, 0, 0.850904, 0.525322, 0, 0, 0, 1, 
 
 [node name="rpCol" type="CollisionShape3D" parent="rightPaddle"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -3.5, 0, 0)
-shape = SubResource("CapsuleShape3D_1bv51")
+shape = SubResource("CapsuleShape3D_tkf5n")
 
 [node name="rpMesh" type="MeshInstance3D" parent="rightPaddle"]
 transform = Transform3D(-8.9407e-08, -1, 0, 1, -8.9407e-08, 0, 0, 0, 1, -3.5, 0, 0)
-mesh = SubResource("CapsuleMesh_hev2t")
+material_override = ExtResource("2_6nthq")
+mesh = SubResource("CapsuleMesh_62wp7")
 
 [node name="leftPaddle" type="CharacterBody3D" parent="."]
 transform = Transform3D(0.525322, 0.850904, 0, -0.850904, 0.525322, 0, 0, 0, 1, -8, 0, 0)
 
 [node name="lpCol" type="CollisionShape3D" parent="leftPaddle"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 3.5, 0, 0)
-shape = SubResource("CapsuleShape3D_1bv51")
+shape = SubResource("CapsuleShape3D_tkf5n")
 
 [node name="lpMesh" type="MeshInstance3D" parent="leftPaddle"]
 transform = Transform3D(-8.9407e-08, -1, 0, 1, -8.9407e-08, 0, 0, 0, 1, 3.5, 0, 0)
-mesh = SubResource("CapsuleMesh_hev2t")
+material_override = ExtResource("2_6nthq")
+mesh = SubResource("CapsuleMesh_62wp7")

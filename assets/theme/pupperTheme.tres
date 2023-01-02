@@ -221,6 +221,5 @@ TextEdit/styles/read_only = SubResource("StyleBoxFlat_s6m5m")
 TooltipLabel/fonts/font = ExtResource("1_4pkym")
 Tree/fonts/font = ExtResource("1_4pkym")
 Tree/fonts/title_button_font = ExtResource("1_4pkym")
-Window/fonts/title_font = ExtResource("1_4pkym")
 transparentHSeparator/base_type = &"HSeparator"
 transparentHSeparator/styles/separator = SubResource("StyleBoxEmpty_t4006")

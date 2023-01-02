@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://eiy8tj55ccid"]
+
+[ext_resource type="PackedScene" uid="uid://bh8lsj6fmpdg7" path="res://score.tscn" id="1_502s4"]
+[ext_resource type="PackedScene" uid="uid://doofgumcpow5w" path="res://menu.tscn" id="1_yayiu"]
+
+[node name="main" type="Node" groups=["game"]]
+
+[node name="gameParent" type="Node3D" parent="." groups=["gameParent"]]
+
+[node name="score" parent="." instance=ExtResource("1_502s4")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" parent="." instance=ExtResource("1_yayiu")]

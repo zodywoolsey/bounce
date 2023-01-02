@@ -24,8 +24,10 @@ func _ready():
 		moveGoal()
 		spawned = true
 	goal.body_entered.connect(func(body):
-		moveGoal()
+		if body.is_in_group('ball'):
+			moveGoal()
 		)
+	ScoreKeeper.score = 0
 
 func _process(delta):
 	if Engine.is_editor_hint():
@@ -33,15 +35,9 @@ func _process(delta):
 			range.mesh.size = Vector3(rangex,rangey,rangez)
 		else:
 			range = $range
-#		moveGoal()
 	if not Engine.is_editor_hint() and range:
 		if moveTimer > .05:
 			moveTimer = 0
-#		if range.visible:
-#			range.hide()
-#		if spawned == false:
-#			moveGoal()
-#			spawned = true
 
 
 func spawnGoal():
@@ -66,6 +62,7 @@ func spawnGoal():
 	goalArea.position = Vector3(tmpx,tmpy,tmpz)
 
 func moveGoal():
+	ScoreKeeper.score+=1
 	var tmpsize :float = randf_range(minSize,maxSize)
 	goalMeshin.mesh.radius = tmpsize
 	goalMeshin.mesh.height = tmpsize*2
