@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://doofgumcpow5w"]
+[gd_scene load_steps=17 format=3 uid="uid://doofgumcpow5w"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_eu8h6"]
 [ext_resource type="Shader" path="res://menu.gdshader" id="2_ljryx"]
@@ -56,6 +56,8 @@ func _process(delta):
 [sub_resource type="GDScript" id="GDScript_icjw4"]
 script/source = "extends Button
 @onready var settings :Panel = $\"../../../settings\"
+@onready var h_slider = $\"../../../settings/VBoxContainer/HBoxContainer/HSlider\"
+@onready var main = $\"../..\"
 
 func _ready():
 	settings.hide()
@@ -65,19 +67,44 @@ func _ready():
 			var tween = create_tween()
 			settings.show()
 			tween.tween_property(settings,'scale',Vector2(1,1),.25).set_trans(Tween.TRANS_CUBIC)
+			tween.tween_property(main,'visible',false,0.0)
+			h_slider.grab_focus()
 		)
+"
+
+[sub_resource type="GDScript" id="GDScript_g28bg"]
+script/source = "extends HSlider
+
+@onready var volume = -60
+
+func _ready():
+	AudioServer.set_bus_volume_db(0,volume)
+	value_changed.connect(func(value):
+		if value > 1:
+			volume = remap(value,0,10,-30,-4)
+		else:
+			volume = -60
+		)
+
+func _process(delta):
+	print(AudioServer.get_bus_volume_db(0))
+	AudioServer.set_bus_volume_db(0, lerp(float(AudioServer.get_bus_volume_db(0)),float(volume),.1))
 "
 
 [sub_resource type="GDScript" id="GDScript_wou5r"]
 script/source = "extends Button
-@onready var settings = $\"../..\"
+@onready var settings = $\"..\"
+@onready var main = $\"../../main\"
+@onready var paddlesbtn = $\"../../main/VBoxContainer/paddlesbtn\"
 
 func _ready():
 	pressed.connect( func():
 		if settings.scale.length() > .5:
 			var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
+			tween.tween_property(main,'visible',true,0)
 			tween.tween_property(settings,'scale',Vector2(),.25)
 			tween.tween_callback(settings.hide)
+			paddlesbtn.grab_focus()
 		)
 "
 
@@ -109,7 +136,7 @@ grow_vertical = 2
 script = SubResource("GDScript_xxql0")
 
 [node name="main" type="Panel" parent="."]
-custom_minimum_size = Vector2(250, 250)
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -124,11 +151,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="main"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -65.0
+offset_right = 65.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -136,31 +166,33 @@ alignment = 1
 [node name="paddlesbtn" type="Button" parent="main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Paddles"
 
 [node name="HSeparator" type="HSeparator" parent="main/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
+theme_override_constants/separation = 32
 
 [node name="spinnerbtn" type="Button" parent="main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Spinner"
 
 [node name="HSeparator2" type="HSeparator" parent="main/VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
+theme_override_constants/separation = 32
 
 [node name="settingsbtn" type="Button" parent="main/VBoxContainer"]
-visible = false
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Settings"
 script = SubResource("GDScript_icjw4")
 
 [node name="settings" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -195,6 +227,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Volume"
 
 [node name="VSeparator" type="VSeparator" parent="settings/VBoxContainer/HBoxContainer"]
@@ -203,13 +236,27 @@ theme_type_variation = &"transparentHSeparator"
 theme_override_constants/separation = 60
 
 [node name="HSlider" type="HSlider" parent="settings/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
+max_value = 10.0
+rounded = true
+script = SubResource("GDScript_g28bg")
 
-[node name="close" type="Button" parent="settings/VBoxContainer"]
-layout_mode = 2
+[node name="close" type="Button" parent="settings"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.9
+anchor_right = 0.6
+anchor_bottom = 0.95
+offset_left = -26.5
+offset_top = -35.0
+offset_right = 26.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
 text = "Close"
 script = SubResource("GDScript_wou5r")
 
