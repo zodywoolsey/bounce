@@ -61,21 +61,21 @@ size = Vector2(50, 12)
 script = ExtResource("1_q3ofe")
 
 [node name="trees" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 3.82696, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.13361, 0, 0)
 material_override = SubResource("StandardMaterial3D_otlo3")
 mesh = SubResource("PlaneMesh_5l5pc")
 
 [node name="smallMontains" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.16809, 0, -1)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 4.38523, 0, -1)
 material_override = SubResource("StandardMaterial3D_b072k")
 mesh = SubResource("PlaneMesh_vysi3")
 
 [node name="bigMountains" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 7.80781, 0, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 3.55017, 0, -2)
 material_override = SubResource("StandardMaterial3D_inhpp")
 mesh = SubResource("PlaneMesh_vysi3")
 
 [node name="sky" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 3.91487, 3, -3)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 6.5083, 3, -3)
 material_override = SubResource("StandardMaterial3D_oofxv")
 mesh = SubResource("PlaneMesh_64rtb")
