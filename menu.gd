@@ -6,11 +6,11 @@ var goalMode = preload("res://goalMode.tscn")
 
 #paddle vars
 var paddles = preload("res://players/paddles.tscn")
-@onready var paddlesbtn = $main/VBoxContainer/paddlesbtn
+@onready var paddlesbtn = $AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer/paddlesbtn
 
 #spinner vars
 var spinner = preload("res://players/spinner.tscn")
-@onready var spinnerbtn = $main/VBoxContainer/spinnerbtn
+@onready var spinnerbtn = $AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer/spinnerbtn
 
 func _ready():
 	gameParent = get_tree().get_first_node_in_group('gameParent')

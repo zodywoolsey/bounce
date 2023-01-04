@@ -134,20 +134,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_xxql0")
 
-[node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(400, 100)
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_top = 101.0
-offset_right = 200.0
-offset_bottom = 201.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+ratio = 0.25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Panel" type="Panel" parent="AspectRatioContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -163,22 +168,21 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 80
 text = "bounce"
 
-[node name="main" type="Panel" parent="."]
+[node name="Control" type="Control" parent="AspectRatioContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="main" type="Panel" parent="AspectRatioContainer/VBoxContainer/Control"]
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = -125.0
-offset_right = 125.0
-offset_bottom = 125.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="main"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/VBoxContainer/Control/main"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
 anchors_preset = 13
@@ -191,50 +195,45 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="paddlesbtn" type="Button" parent="main/VBoxContainer"]
+[node name="paddlesbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Paddles"
 
-[node name="HSeparator" type="HSeparator" parent="main/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 theme_override_constants/separation = 32
 
-[node name="spinnerbtn" type="Button" parent="main/VBoxContainer"]
+[node name="spinnerbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Spinner"
 
-[node name="HSeparator2" type="HSeparator" parent="main/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 theme_override_constants/separation = 32
 
-[node name="settingsbtn" type="Button" parent="main/VBoxContainer"]
+[node name="settingsbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Settings"
 script = SubResource("GDScript_icjw4")
 
-[node name="settings" type="Panel" parent="."]
+[node name="settings" type="Panel" parent="AspectRatioContainer/VBoxContainer/Control"]
+visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -200.0
-offset_right = 200.0
-offset_bottom = 200.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="settings"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/VBoxContainer/Control/settings"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -249,28 +248,28 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="settings/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="settings/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Volume"
 
-[node name="VSeparator" type="VSeparator" parent="settings/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 theme_override_constants/separation = 60
 
-[node name="HSlider" type="HSlider" parent="settings/VBoxContainer/HBoxContainer"]
+[node name="HSlider" type="HSlider" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 max_value = 10.0
 rounded = true
 script = SubResource("GDScript_g28bg")
 
-[node name="close" type="Button" parent="settings"]
+[node name="close" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/settings"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.4
@@ -288,19 +287,13 @@ theme_override_font_sizes/font_size = 32
 text = "Close"
 script = SubResource("GDScript_wou5r")
 
-[node name="Panel2" type="Panel" parent="."]
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.8
-anchor_right = 0.5
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Panel2" type="Panel" parent="AspectRatioContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
 
-[node name="Label" type="Label" parent="Panel2"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel2"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -311,7 +304,7 @@ text = "Controls:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/VBoxContainer/Panel2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -320,77 +313,77 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "left:   "
 
-[node name="VSeparator" type="VSeparator" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 
-[node name="LeftTrigger" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="LeftTrigger" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("5_1me4v")
 ignore_texture_size = true
 
-[node name="Touch" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="Touch" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 50)
 layout_mode = 2
 texture = ExtResource("6_ppw4n")
 ignore_texture_size = true
 flip_h = true
 
-[node name="W" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="W" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("5_8u5lu")
 ignore_texture_size = true
 
-[node name="Arrow" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="Arrow" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("6_avfv3")
 ignore_texture_size = true
 flip_h = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "right:"
 
-[node name="VSeparator" type="VSeparator" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_type_variation = &"transparentHSeparator"
 
-[node name="RightTrigger" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="RightTrigger" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("9_ppo1h")
 ignore_texture_size = true
 
-[node name="Touch" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="Touch" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(40, 50)
 layout_mode = 2
 texture = ExtResource("6_ppw4n")
 ignore_texture_size = true
 
-[node name="D" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="D" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("8_kiwqk")
 ignore_texture_size = true
 
-[node name="Arrow" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="Arrow" type="TextureRect" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("6_avfv3")

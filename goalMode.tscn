@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://dcs8h78drc16k" path="res://assets/parallax mountain/scene/mountainBackground.tscn" id="2_k0gxb"]
 [ext_resource type="PackedScene" uid="uid://o2xf3wf4w6mc" path="res://spawner/goals.tscn" id="3_1wv1c"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yqr4l"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_buk0y"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yxiqt"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_i7tjf"]
 
-[sub_resource type="GDScript" id="GDScript_316ao"]
+[sub_resource type="GDScript" id="GDScript_6f43e"]
 script/source = "extends Area3D
 @onready var ball_manager = $\"../ballManager\"
 
@@ -19,16 +19,16 @@ func _on_body_entered(body):
 		ball_manager.removeBall(body)
 "
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cttgk"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nthy2"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_1102a"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dwt16"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sptfn"]
-transparency = 1
-albedo_color = Color(1, 1, 1, 0.607843)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pv0vr"]
+transparency = 4
+albedo_color = Color(1, 1, 1, 0.639216)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_7ikgm"]
-material = SubResource("StandardMaterial3D_sptfn")
+[sub_resource type="PlaneMesh" id="PlaneMesh_f8b5x"]
+material = SubResource("StandardMaterial3D_pv0vr")
 size = Vector2(50, 50)
 
 [node name="goals" type="Node3D"]
@@ -47,15 +47,15 @@ collision_mask = 2
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="walls"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -8.3, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_yqr4l")
+shape = SubResource("WorldBoundaryShape3D_buk0y")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walls"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 8.3, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_yxiqt")
+shape = SubResource("WorldBoundaryShape3D_i7tjf")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="walls"]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 16.5, 0)
-shape = SubResource("WorldBoundaryShape3D_yxiqt")
+shape = SubResource("WorldBoundaryShape3D_i7tjf")
 
 [node name="Node3D2" parent="." instance=ExtResource("2_k0gxb")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -8.72726, -5)
@@ -64,23 +64,23 @@ speed = 0.1
 [node name="deleteBoundary" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
-script = SubResource("GDScript_316ao")
+script = SubResource("GDScript_6f43e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="deleteBoundary"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18.9875, 0)
-shape = SubResource("WorldBoundaryShape3D_cttgk")
+shape = SubResource("WorldBoundaryShape3D_nthy2")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="deleteBoundary"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -10.7109, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_1102a")
+shape = SubResource("WorldBoundaryShape3D_dwt16")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="deleteBoundary"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 9.63983, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_1102a")
+shape = SubResource("WorldBoundaryShape3D_dwt16")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="deleteBoundary"]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 18.0138, 0)
-shape = SubResource("WorldBoundaryShape3D_1102a")
+shape = SubResource("WorldBoundaryShape3D_dwt16")
 
 [node name="goals" parent="." instance=ExtResource("3_1wv1c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.76782, 0)
@@ -91,10 +91,10 @@ rangey = 20.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -33.3, 0, 0)
-mesh = SubResource("PlaneMesh_7ikgm")
+mesh = SubResource("PlaneMesh_f8b5x")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 33.3, 0, 0)
-mesh = SubResource("PlaneMesh_7ikgm")
+mesh = SubResource("PlaneMesh_f8b5x")
 
 [connection signal="body_entered" from="deleteBoundary" to="deleteBoundary" method="_on_body_entered"]
