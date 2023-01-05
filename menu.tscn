@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://doofgumcpow5w"]
+[gd_scene load_steps=18 format=3 uid="uid://doofgumcpow5w"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_eu8h6"]
+[ext_resource type="Theme" uid="uid://0ko6t7f3hguj" path="res://assets/theme/pupperTheme.tres" id="1_ioas0"]
 [ext_resource type="Shader" path="res://menu.gdshader" id="2_ljryx"]
 [ext_resource type="Texture2D" uid="uid://di0nb6ajr0urp" path="res://assets/controller/Xbox Series Button Icons and Controls/Buttons Outline/White/SVG/Left Trigger.svg" id="5_1me4v"]
 [ext_resource type="Texture2D" uid="uid://bnhnf1qm71q51" path="res://assets/controller/w.svg" id="5_8u5lu"]
@@ -92,6 +93,7 @@ func _ready():
 		else:
 			volume = -60
 		)
+	scale = Vector2(1.2,1.2)
 
 func _process(delta):
 	AudioServer.set_bus_volume_db(0, lerp(float(AudioServer.get_bus_volume_db(0)),float(volume),.1))
@@ -122,6 +124,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(250, 500)
+theme = ExtResource("1_ioas0")
 script = ExtResource("1_eu8h6")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -148,7 +151,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="Panel" type="Panel" parent="AspectRatioContainer/VBoxContainer"]
-custom_minimum_size = Vector2(400, 100)
+custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
 
@@ -167,14 +170,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 80
 text = "bounce"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control" type="Control" parent="AspectRatioContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 400)
+custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 size_flags_vertical = 4
 
 [node name="main" type="Panel" parent="AspectRatioContainer/VBoxContainer/Control"]
-custom_minimum_size = Vector2(400, 400)
+custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,7 +203,7 @@ alignment = 1
 [node name="paddlesbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Paddles"
 
 [node name="HSeparator" type="HSeparator" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
@@ -209,7 +214,7 @@ theme_override_constants/separation = 32
 [node name="spinnerbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Spinner"
 
 [node name="HSeparator2" type="HSeparator" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
@@ -220,12 +225,11 @@ theme_override_constants/separation = 32
 [node name="settingsbtn" type="Button" parent="AspectRatioContainer/VBoxContainer/Control/main/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Settings"
 script = SubResource("GDScript_icjw4")
 
 [node name="settings" type="Panel" parent="AspectRatioContainer/VBoxContainer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -254,7 +258,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Volume"
 
 [node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
@@ -265,6 +269,7 @@ theme_override_constants/separation = 60
 [node name="HSlider" type="HSlider" parent="AspectRatioContainer/VBoxContainer/Control/settings/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
+size_flags_vertical = 1
 max_value = 10.0
 rounded = true
 script = SubResource("GDScript_g28bg")
@@ -283,12 +288,12 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Close"
 script = SubResource("GDScript_wou5r")
 
 [node name="Panel2" type="Panel" parent="AspectRatioContainer/VBoxContainer"]
-custom_minimum_size = Vector2(400, 200)
+custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwxmt")
@@ -299,7 +304,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 48.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 42
 text = "Controls:"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -309,6 +314,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -319,7 +326,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "left:   "
 
 [node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer"]
@@ -358,7 +365,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "right:"
 
 [node name="VSeparator" type="VSeparator" parent="AspectRatioContainer/VBoxContainer/Panel2/VBoxContainer/HBoxContainer2"]

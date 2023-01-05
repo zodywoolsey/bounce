@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.0", "Mobile")
 boot_splash/image="res://assets/icon.png"
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://assets/icon.svg"
+boot_splash/minimum_display_time=2000
 
 [audio]
 
@@ -28,8 +29,13 @@ ScoreKeeper="*res://players/scoreKeeper.gd"
 
 [display]
 
-window/size/viewport_width=500
-window/size/viewport_height=1000
+window/size/viewport_width=675
+window/size/viewport_height=1575
+window/size/window_width_override=600
+window/size/window_height_override=600
+window/handheld/orientation=6
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_height"
 
 [editor_plugins]
 
@@ -103,4 +109,9 @@ common/physics_ticks_per_second=120
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/default_filters/use_nearest_mipmap_filter=true
+textures/default_filters/anisotropic_filtering_level=0
+textures/decals/filter=2
+textures/light_projectors/filter=2
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+textures/canvas_textures/default_texture_filter=3
